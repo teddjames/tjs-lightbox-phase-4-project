@@ -1,27 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import "./App.css";
+import LoginForm from "./LoginForm";
 import WorksList from "./WorksLists";
-import Filter from "./Filter";
 
 function App() {
+  const [user, setUser] = useState(null);
   const [works, setWorks] = useState([]);
-  const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/works")
-      .then((r) => r.json())
-      .then(setWorks)
-      .catch(console.error);
-  }, []);
-
-  const filtered = works.filter((w) =>
-    w.title.toLowerCase().includes(filterText.toLowerCase())
-  );
+    if (user) {
+      fetch("http://localhost:5000/works")
+        .then((r) => r.json())
+        .then(setWorks);
+    }
+  }, [user]);
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h1>My Photography Works</h1>
-      <Filter value={filterText} onChange={setFilterText} />
-      <WorksList works={filtered} setWorks={setWorks} />
+    <div className="App">
+      <header className="App-header">
+        <h1>TJS Lightbox</h1>
+        {!user ? (
+          <LoginForm onLogin={setUser} />
+        ) : (
+          <>
+            <p>Welcome, {user.username}!</p>
+            <WorksList works={works} setWorks={setWorks} />
+          </>
+        )}
+      </header>
     </div>
   );
 }

@@ -8,7 +8,7 @@ export default function AddIdeaForm({ workId, onAdd }) {
     onAdd(workId, idea);
     setIdea("");
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <input 

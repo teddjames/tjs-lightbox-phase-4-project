@@ -18,6 +18,19 @@ export default function WorkCard({ work, setWorks }) {
     await reload();
   };
 
+  const handleAddIdea = async (workId, content) => {
+    await fetch("http://127.0.0.1:5000/ideas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        work_id: workId,
+        title: "New Idea", // Adjust as needed
+        description: content,
+      }),
+    });
+    await reload();
+  };
+
   return (
     <div style={{ border: "1px solid #ccc", padding: "1rem" }}>
       <h2>{work.title}</h2>
@@ -40,7 +53,9 @@ export default function WorkCard({ work, setWorks }) {
           <button onClick={() => handleIdeaDelete(i.id)}>×</button>
         </div>
       ))}
-      <AddIdeaForm workId={work.id} reload={reload} />
+      
+      {/* ✅ Corrected: Pass onAdd instead of reload */}
+      <AddIdeaForm workId={work.id} onAdd={handleAddIdea} />
     </div>
   );
 }
