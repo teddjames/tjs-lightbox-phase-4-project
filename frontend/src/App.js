@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm"; // ✅ use correct filename
 import WorksList from "./WorksLists";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
       <header className="App-header">
         <h1>TJS Lightbox</h1>
         {!user ? (
-          <LoginForm onLogin={setUser} />
+          <SignupForm onSignup={setUser} /> // ✅ correct prop passed
         ) : (
           <>
             <p>Welcome, {user.username}!</p>
